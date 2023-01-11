@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+
+  <div align="center">
+    <p id="d1">
+    <h1>parente sei pronto per entrare nel 2030?</h1>
+    </p>
+
+    <div >
+      <p><a href="./index.html">Home </a></p>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-push-2">
+          <hr />
+          <br />
+        </div>
+      </div>
+
+      <div id="itemRow" class="row">
+        <!-- ITEM LOAD HERE -->
+      </div>
+    </div>
+
+    <div id="itemTemplate" style="display: none;">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="panel panel-default panel-pet">
+          <div class="panel-heading"> 
+
+            <h3 class="panel-title">Nome</h3> 
+
+          </div>
+          <div class="panel-body">
+
+            
+            <br /><br />
+            <strong>Prezzo</strong>: <span class="itemPrice">12</span><br />
+
+            <button class="btn-onSale btn" type="button" data-id="0">On sale</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="form-inline" name="myForm" role="form">
+      <div class="form-group">
+
+        <p><label for="nome">Nome</label>
+          <input class="form-control" id="idNome">
+
+        <p><label for="price">Prezzo </label>
+          <input class="form-control" id="idPrezzo">
+        </p>
+
+        <p><label for="descrizione">Descrizione </label>
+          <input class="form-control" id="idDescrizione">
+        </p>
+
+        <p><h1>
+          On sale? <p></p> toggle me <p></p>
+          <input id="myCheckBox" type="checkbox" >
+        </h1></p>
+
+
+
+        <button class="btn-create btn" type="button" style="width:100px; height:50px;">create</button>
+        <p></p>
+    </form>
+
+
+
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/create.js"></script>
+</body>
+
+</html>
