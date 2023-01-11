@@ -59,6 +59,7 @@ Create = {
             console.log(_id);
             var accounts = await ethereum.request({ method: 'eth_accounts' });
             console.log("ci siamo quasi")
+            console.log("questo messaggio è per git")
 
 
            return await ClothesInstance.setOnSale(_id, {from: accounts[0]});
