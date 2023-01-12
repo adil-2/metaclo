@@ -34,9 +34,7 @@ App = {
             App.contracts.ClothesFactory = TruffleContract(ClothesFactoryArtifact);
 
             App.contracts.ClothesFactory.setProvider(App.web3Provider);
-
         });
-
         return App.GetMartketItem();
     },
 
@@ -53,6 +51,7 @@ App = {
         }
         var itemRow = $('#itemRow');
         var itemTemplate = $('#itemTemplate');
+
 
         $.getJSON('ClothesFactory.json', function (data) {
             var ClothesFactoryArtifact = data;
@@ -82,40 +81,45 @@ App = {
                     itemTemplate.find('.panel-title').text(item.nome);
                     itemTemplate.find('.itemPrice').text(web3.fromWei(item.price, 'ether') + " Ether");
                     itemTemplate.find('.itemSold').text("Fai girare la moneta!!");
+                    itemTemplate.find('.btn-buy').attr('data-id', item.tokenId);
 
                     var accounts = await ethereum.request({ method: 'eth_accounts' });
 
-                    if ((item.sold == true) && (item.owner == accounts[0])) {
-                        itemTemplate.find('.btn-buy').text('IT YOURS').attr('disabled', true);
-                    } else if (item.sold == true && item.owner != accounts[0]) {
-                        itemTemplate.find('.btn-buy').attr('data-id', item.tokenId)
-                    }
-
-
                     itemRow.append(itemTemplate.html());
-
                 }
 
+                for (var i = 0; i < data.length; i++) {
+                    var result = await ClothesInstance.getDress(data[i]);
+                    console.log(data)
+
+                    if (data[i] == 0) {
+                        break;
+                    }
+                    console.log(result[0].toNumber());
+
+                    if (result[1] == accounts[0]) {
+                        $('.panel-item').eq(i).find('button').text('CANNOT BUY: IT IS YOURS').attr('disabled', true);
+
+                        console.log("sono entrato ed è la stessa persona");
+                    }
+                }
                 return item.tokenId;
-
             }).then(function (result) {
-                //console.log(result);
-
+                console.log(result);
+                App.bindEvents();
             }).catch(function (err) {
                 console.log(err.message);
+                location.reload(true);
+                App.bindEvents();
             });
         });
-
-        return App.bindEvents();
     },
 
 
     bindEvents: function () {
         $(document).on('click', '.btn-buy', App.buyDress);
-
     },
 
-    //da fare tutta, per ora caccia il listino prezzi
     buyDress: async function (event) {
         event.preventDefault();
         var _id = parseInt($(event.target).data('id'));
@@ -131,22 +135,16 @@ App = {
 
             console.log(price);
 
-            return inst.createDressMarketSale(_id, { from: accounts[0], value: price });
+            await inst.createDressMarketSale(_id, { from: accounts[0], value: price });
         }).then(function () {
-            console.log("ci siamo, hai venduto");
             location.reload(true);
+            window.location = "http://localhost:3000/createNew";
         }).catch(function (err) {
             console.log(err.message);
-            //location.reload(true);
-
+            location.reload(true);
+            App.bindEvents();
         });
-
-        //location.reload(true);
-        return App.bindEvents();
     },
-
-
-
 };
 
 
