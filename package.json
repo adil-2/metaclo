@@ -12,7 +12,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
     "@truffle/contract": "^4.6.10",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "web3.storage": "^4.4.0"
   },
   "devDependencies": {
     "lite-server": "^2.6.1"

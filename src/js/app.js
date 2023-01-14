@@ -52,8 +52,6 @@ App = {
         var itemRow = $('#itemRow');
         var itemTemplate = $('#itemTemplate');
 
-
-
         $.getJSON('ClothesFactory.json', function (data) {
             var ClothesFactoryArtifact = data;
             App.contracts.ClothesFactory = TruffleContract(ClothesFactoryArtifact);
@@ -65,6 +63,7 @@ App = {
 
                 const data = await ClothesInstance.getAllOnSale.call();
 
+                const metacl = "https://bafybeihocyys2l4hamjcwpxc6pymcy5nuaujogltymhur2emlehlgcidwe.ipfs.w3s.link/metacl%C3%B2.jpg";
 
                 for (var j = 0; j < data.length; j++) {
                     var res = await ClothesInstance.getDress.call(data[j]);
@@ -82,6 +81,7 @@ App = {
                     itemTemplate.find('.panel-title').text(item.nome);
                     itemTemplate.find('.itemPrice').text(web3.fromWei(item.price, 'ether') + " Ether");
                     itemTemplate.find('.itemSold').text("Fai girare la moneta!!");
+                    itemTemplate.find('img').attr('src', metacl);
                     itemTemplate.find('.btn-buy').attr('data-id', item.tokenId);
 
                     var accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -118,10 +118,11 @@ App = {
 
 
     bindEvents: function () {
+        $(document).on('click', '.btn-buy', App.buyDress);
+
         window.ethereum.on('accountsChanged', () => {
             window.location.reload();
         })
-        $(document).on('click', '.btn-buy', App.buyDress);
 
     },
 
