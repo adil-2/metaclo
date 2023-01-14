@@ -20,7 +20,7 @@ Create = {
         }
         // If no injected web3 instance is detected, fall back to Ganache
         else {
-            Create.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+            Create.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
         }
         web3 = new Web3(Create.web3Provider);
 
@@ -90,11 +90,11 @@ Create = {
                 }
 
                 console.log("1 volta");
-               
+
                 //disattiviamo il pulsante se l'utente l'ha già messo in vendita
                 for (var i = 0; i < data.length; i++) {
                     var result = await ClothesInstance.getDress(data[i]);
-                    
+
                     if (data[i] == 0) {
                         break;
                     }
@@ -116,6 +116,9 @@ Create = {
     bindEvents: function () {
         $(document).on('click', '.btn-create', Create.CreateItem);
         $(document).on('click', '.btn-onSale', Create.onSaleItem);
+        window.ethereum.on('accountsChanged', () => {
+            window.location.reload();
+        });
 
     },
 
@@ -132,17 +135,17 @@ Create = {
             var accounts = await ethereum.request({ method: 'eth_accounts' });
 
             console.log("siamo dentro onSaleItem");
-           
-           await ClothesInstance.setOnSale(_id, { from: accounts[0] });
+
+            await ClothesInstance.setOnSale(_id, { from: accounts[0] });
         }).then(function (result) {
-           console.log(result);
-           window.location = "http://localhost:3000/";
+            console.log(result);
+            window.location = "http://localhost:3000/";
         }).catch(function (err) {
             console.log(err.message);
             location.reload(true);
             Create.bindEvents();
         });
-        
+
     },
 
     CreateItem: async function () {
@@ -153,10 +156,17 @@ Create = {
             ClothesInstance = instance;
             var listingPrice = await ClothesInstance.getPrezzoListino.call();
 
+           
             var url = "htt/qualcosa";
             var price = $('#idPrezzo').val();
             var nome = $('#idNome').val();
             var desc = $('#idDescrizione').val();
+
+            //caricamento dell'img
+            var img = $('#img');
+            var imgArray = [];
+
+
             var isChecked = document.getElementById("myCheckBox").checked;
 
             if (isChecked) {
@@ -165,7 +175,7 @@ Create = {
                 var sale = false;
             }
 
-            console.log("è stato cliccato "+sale);
+            console.log("è stato cliccato " + sale);
 
 
             var accounts = await ethereum.request({ method: 'eth_accounts' });

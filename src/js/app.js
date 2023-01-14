@@ -20,7 +20,7 @@ App = {
         }
         // If no injected web3 instance is detected, fall back to Ganache
         else {
-            App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+            App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
         }
         web3 = new Web3(App.web3Provider);
 
@@ -51,6 +51,7 @@ App = {
         }
         var itemRow = $('#itemRow');
         var itemTemplate = $('#itemTemplate');
+
 
 
         $.getJSON('ClothesFactory.json', function (data) {
@@ -90,7 +91,7 @@ App = {
 
                 for (var i = 0; i < data.length; i++) {
                     var result = await ClothesInstance.getDress(data[i]);
-                    console.log(data)
+                    console.log(data[i].toNumber())
 
                     if (data[i] == 0) {
                         break;
@@ -105,11 +106,11 @@ App = {
                 }
                 return item.tokenId;
             }).then(function (result) {
-                console.log(result);
+                console.log("ci sono in circolazione ben " + result + " token");
                 App.bindEvents();
             }).catch(function (err) {
                 console.log(err.message);
-                location.reload(true);
+                //location.reload(true);
                 App.bindEvents();
             });
         });
@@ -117,7 +118,11 @@ App = {
 
 
     bindEvents: function () {
+        window.ethereum.on('accountsChanged', () => {
+            window.location.reload();
+        })
         $(document).on('click', '.btn-buy', App.buyDress);
+
     },
 
     buyDress: async function (event) {
