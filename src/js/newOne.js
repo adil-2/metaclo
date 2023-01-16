@@ -101,9 +101,12 @@ async function item(url, nome, sale, price) {
     await ClothesInstance.createDress(url, nome, sale, price, { from: accounts[0], value: 8 }, function (err, res) {
         if (!err) {
             console.log(res);
+            window.location = "http://localhost:3000/";
         }
         else { console.log("dioporo") }
     });
+
+    
 }
 
 async function pri() {

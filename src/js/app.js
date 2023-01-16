@@ -148,7 +148,7 @@ App = {
             await inst.createDressMarketSale(_id, { from: accounts[0], value: price });
         }).then(function () {
             location.reload(true);
-            window.location = "http://localhost:3000/createNew";
+            window.location = "http://localhost:3000/myItems.html";
         }).catch(function (err) {
             console.log(err.message);
             location.reload(true);
