@@ -3,6 +3,7 @@
 
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    
 
 </head>
 
@@ -16,7 +17,7 @@
         <div>
             <p><a href="./index.html">Home </a></p>
         </div>
-        <form class="form-inline" name="myForm" role="form">
+        <form class="form-inline" name="myForm" id="upload-form" role="form">
             <div class="form-group">
 
                 <p><label for="nome">Nome</label>
@@ -33,7 +34,8 @@
                 <p><label for="img">Select image: </label>
                     <input type="file" class="form-control" id="img" accept="image/jpeg, image/png, image/jpg">
                 </p>
-                <output></output>
+
+                <div id ="output"></div>
 
                 <p>
                 <h1>
@@ -41,20 +43,17 @@
                     <input id="myCheckBox" type="checkbox">
                 </h1>
                 </p>
-                <button class="btn-create btn" type="button" style="width:100px; height:50px;">create</button>
+                <input id="submit" type="submit" value="Submit" style="width:100px; height:50px;"></button>
                 <p></p>
-        </form>
-        <output id="outp"></output>
-
-
-
+            </form>
     </div>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>
     <script src="js/truffle-contract.js"></script>
-    <script src="js/createNew.js"></script>
+    <script type="module" src="js/newOne.js "></script>
 </body>
 
 </html>

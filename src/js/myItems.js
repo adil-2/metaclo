@@ -66,10 +66,14 @@ Create = {
 
                 const data = await ClothesInstance.getMyDress({ from: accounts[0] });
                 console.log(data.length);
+                const metacl = "https://bafybeihocyys2l4hamjcwpxc6pymcy5nuaujogltymhur2emlehlgcidwe.ipfs.w3s.link/metacl%C3%B2.jpg";
 
 
                 for (var j = 0; j < data.length; j++) {
                     var res = await ClothesInstance.getDress.call(data[j]);
+                    var img = await ClothesInstance.tokenURI.call(data[j]);
+                    var uri = img;
+                    console.log(uri)
                     console.log(data[j]);
 
                     if (data[j] == 0) {
@@ -85,7 +89,7 @@ Create = {
                     itemTemplate.find('.panel-title').text(item.nome);
                     itemTemplate.find('.itemPrice').text(web3.fromWei(item.price, 'ether') + " Ether");
                     itemTemplate.find('.btn-onSale').attr('data-id', item.tokenId);
-
+                    itemTemplate.find('img').attr('src', uri);
                     itemRow.append(itemTemplate.html());
                 }
 

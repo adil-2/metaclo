@@ -37,18 +37,13 @@ contract ClothesFactory is ERC721URIStorage {
         ownerAdil = payable(msg.sender);
     }
 
-    function updatePrezzoListino(uint256 newPrice) public {
+    function updatePrezzoListino(uint256 newPrice) public{
         require(msg.sender == ownerAdil, "non sei autorizzato");
         PREZZO_LISTINO = newPrice;
     }
 
     //stiamo mintando un nuovo NFT
-    function createDress(
-        string memory TokenURI,
-        string memory _n,
-        bool _onSale,
-        uint256 prezzo
-    ) public payable returns (uint256) {
+    function createDress(string memory TokenURI, string memory _n, bool _onSale, uint256 prezzo) public payable returns (uint256) {
         require(prezzo > 0, "stiamo lavorando per la chiesa? :)");
 
         require(msg.value == PREZZO_LISTINO);

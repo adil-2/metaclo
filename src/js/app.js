@@ -62,11 +62,15 @@ App = {
                 ClothesInstance = instance;
 
                 const data = await ClothesInstance.getAllOnSale.call();
+                var i = await ClothesInstance.getPrezzoListino();
+                console.log("il prezzo di listino è: "+ i);
 
                 const metacl = "https://bafybeihocyys2l4hamjcwpxc6pymcy5nuaujogltymhur2emlehlgcidwe.ipfs.w3s.link/metacl%C3%B2.jpg";
 
                 for (var j = 0; j < data.length; j++) {
                     var res = await ClothesInstance.getDress.call(data[j]);
+                    var img = await ClothesInstance.tokenURI.call(data[j]);
+                    var uri = img;
 
                     if (data[j] == 0) {
                         break;
@@ -81,7 +85,7 @@ App = {
                     itemTemplate.find('.panel-title').text(item.nome);
                     itemTemplate.find('.itemPrice').text(web3.fromWei(item.price, 'ether') + " Ether");
                     itemTemplate.find('.itemSold').text("Fai girare la moneta!!");
-                    itemTemplate.find('img').attr('src', metacl);
+                    itemTemplate.find('img').attr('src', uri);
                     itemTemplate.find('.btn-buy').attr('data-id', item.tokenId);
 
                     var accounts = await ethereum.request({ method: 'eth_accounts' });

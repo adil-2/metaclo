@@ -35,14 +35,7 @@ App = {
             App.contracts.ClothesFactory = TruffleContract(ClothesFactoryArtifact);
             App.contracts.ClothesFactory.setProvider(App.web3Provider);
         });
-        return App.imgSearch();
-    },
-
-    imgSearch: async function () {
-        
-        new Web3Storage({ token: getAccessToken() })
-        
-        return App.bindEvents();
+        return App.CreateItem();
     },
 
     bindEvents: function () {
@@ -53,69 +46,77 @@ App = {
             window.location.reload();
         })
 
+
     },
 
     CreateItem: async function () {
         var ClothesInstance;
 
-        App.contracts.ClothesFactory.deployed().then(async function (instance) {
+        $.getJSON('ClothesFactory.json', function (data) {
+            var ClothesFactoryArtifact = data;
+            App.contracts.ClothesFactory = TruffleContract(ClothesFactoryArtifact);
+            App.contracts.ClothesFactory.setProvider(App.web3Provider);
 
-            ClothesInstance = instance;
-            var listingPrice = await ClothesInstance.getPrezzoListino.call();
+            App.contracts.ClothesFactory.deployed().then(async function (instance) {
+
+                ClothesInstance = instance;
+                var listingPrice = await ClothesInstance.getPrezzoListino.call();
 
 
-            var url = "htt/qualcosa";
-            var price = $('#idPrezzo').val();
-            var nome = $('#idNome').val();
-            var desc = $('#idDescrizione').val();
+                //var url = "htt/qualcosa";
+                //var price = $('#idPrezzo').val();
+                //var nome = $('#idNome').val();
+                //var desc = $('#idDescrizione').val();
 
-            //caricamento dell'img
-            const fileInput = document.getElementById('img');
-            fileInput.onchange = fileSelected;
-            function fileSelected(e) {
-                if (e.target.files.length < 1) {
-                    console.log('nothing selected')
-                    return
+                //caricamento dell'img
+                /*
+                const fileInput = document.getElementById('img');
+                fileInput.onchange = fileSelected;
+                function fileSelected(e) {
+                    if (e.target.files.length < 1) {
+                        console.log('nothing selected')
+                        return
+                    }
+                    handleFileSelected(e.target.files[0])
                 }
-                handleFileSelected(e.target.files[0])
-            }
+                */
 
+
+
+
+                //var isChecked = document.getElementById("myCheckBox").checked;
+
+                //if (isChecked) {
+                //    sale = true;
+                //} else {
+                 //   var sale = false;
+                //}
+
+                //console.log("è stato cliccato " + sale);
+
+
+                var accounts = await ethereum.request({ method: 'eth_accounts' });
+                
+                return await ClothesInstance.createDress("htt", "vittorio", true, 50, { from: accounts[0], value: listingPrice });
             
-
-
-            var isChecked = document.getElementById("myCheckBox").checked;
-
-            if (isChecked) {
-                sale = true;
-            } else {
-                var sale = false;
-            }
-
-            console.log("è stato cliccato " + sale);
-
-
-            var accounts = await ethereum.request({ method: 'eth_accounts' });
-            console.log(nome + " " + desc);
-
-            return await ClothesInstance.createDress(url, nome, sale, price, { from: accounts[0], value: listingPrice });
         }).then(function (result) {
 
-            window.location = "http://localhost:3000/";
+            //window.location = "http://localhost:3000/";
             //location.reload(true);
 
             console.log(result);
         }).catch(function (err) {
             console.log(err.message);
         });
-
         App.bindEvents();
-
-    },
+    });
+    }
+    
 }
 
 $(function () {
     $(window).load(function () {
-        
+
         App.initWeb3();
     });
 });
